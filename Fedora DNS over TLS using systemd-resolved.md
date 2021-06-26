@@ -15,7 +15,6 @@ Be sure to enable DNS over TLS and to configure the IP addresses of the DNS serv
 DNS=1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001</br>
 DNSOverTLS=yes</br>
 DNSSEC=yes</br>
-Domains=cloudflare-dns.com
 
 **Step 2 : Tell NetworkManager to push info to systemd-resolved**</br>
 
