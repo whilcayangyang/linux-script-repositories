@@ -6,7 +6,7 @@ Modify /etc/systemd/resolved.conf so that it is similar to what is shown below.<
 Be sure to enable DNS over TLS and to configure the IP addresses of the DNS servers you want to use.</br>
 
 - DNS: A space-separated list of IPv4 and IPv6 addresses to use as system DNS servers</br>
-- Domains: These domains are used as search suffixes when resolving single-label host names, ~. stand for use the system DNS server defined with DNS= preferably for all domains.</br>
+- Domains: These domains are **used as search suffixes when resolving single-label host names**, ~. stand for use the system DNS server defined with DNS= preferably for all domains.</br>
 - DNSOverTLS: If true all connections to the server will be encrypted. Note that this mode requires a DNS server that supports DNS-over-TLS and has a valid certificate for it’s IP.</br>
 
 *$ sudo nano /etc/systemd/resolved.conf*</br>
