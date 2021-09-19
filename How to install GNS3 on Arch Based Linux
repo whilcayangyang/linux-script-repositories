@@ -1,0 +1,10 @@
+yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git --noconfirm
+
+sudo usermod -aG docker whil
+sudo usermod -aG wireshark whil
+sudo usermod -aG kvm whil
+sudo usermod -aG libvirt whil
+
+sudo systemctl enable --now docker
+sudo systemctl enable --now libvirtd
+sudo systemctl enable --now gns3-server@whil
