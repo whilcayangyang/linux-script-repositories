@@ -1,10 +1,13 @@
-yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git --noconfirm
+Install the following packages:
+# yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git --noconfirm
 
-sudo usermod -aG docker whil
-sudo usermod -aG wireshark whil
-sudo usermod -aG kvm whil
-sudo usermod -aG libvirt whil
+Add your username to the following groups:
+# sudo usermod -aG docker username
+# sudo usermod -aG wireshark username
+# sudo usermod -aG kvm username
+# sudo usermod -aG libvirt username
 
-sudo systemctl enable --now docker
-sudo systemctl enable --now libvirtd
-sudo systemctl enable --now gns3-server@whil
+Enable systemd services:
+# sudo systemctl enable --now docker
+# sudo systemctl enable --now libvirtd
+# sudo systemctl enable --now gns3-server@username
