@@ -4,12 +4,12 @@
 yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git --noconfirm
 
 **Add your username to the following groups:**</br>
-sudo usermod -aG docker username
-sudo usermod -aG wireshark username
-sudo usermod -aG kvm username
-sudo usermod -aG libvirt username
+sudo usermod -aG docker username</br>
+sudo usermod -aG wireshark username</br>
+sudo usermod -aG kvm username</br>
+sudo usermod -aG libvirt username</br>
 
 **Enable systemd services:**</br>
-sudo systemctl enable --now docker
-sudo systemctl enable --now libvirtd
-sudo systemctl enable --now gns3-server@username
+sudo systemctl enable --now docker</br>
+sudo systemctl enable --now libvirtd</br>
+sudo systemctl enable --now gns3-server@username</br>
