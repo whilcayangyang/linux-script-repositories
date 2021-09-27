@@ -8,6 +8,10 @@ yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 --noconfirm
 sudo ufw enable
 sudo systemctl enable --now ufw
 
+# TIMESHIFT SYSTEM BACKUP AND RESTORE
+yay -Syu grub-btrfs timeshift timeshift-autosnap --noconfirm
+sudo systemctl enable --now grub-btrfs
+
 # LAPTOP UTILITIES
 if hostnamectl | grep laptop > /dev/null; then
 	# bluetooth management
