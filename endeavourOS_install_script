@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# EDIT THE COUNTRY CODE WITH YOUR LOCATION FOR FASTER MIRROR
+sudo reflector --protocol https --latest 10 --sort rate -c CN,HK,TW,SG --save /etc/pacman.d/mirrorlist --verbose
+
 # INITIAL PACKAGE
 sudo pacman -S yakuake gimp libreoffice ktorrent simplescreenrecorder sweeper plasma-systemmonitor ufw plasma-firewall neofetch kcalc htop --noconfirm
 yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 --noconfirm
