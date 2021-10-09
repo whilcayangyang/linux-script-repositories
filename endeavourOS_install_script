@@ -12,7 +12,7 @@ sudo ufw enable
 sudo systemctl enable --now ufw
 
 # TIMESHIFT SYSTEM BACKUP AND RESTORE
-yay -Syu grub-btrfs timeshift timeshift-autosnap --noconfirm
+yay -S grub-btrfs timeshift timeshift-autosnap --noconfirm
 sudo systemctl enable --now grub-btrfs
 
 # LAPTOP UTILITIES
