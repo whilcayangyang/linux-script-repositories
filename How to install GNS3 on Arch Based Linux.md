@@ -1,7 +1,7 @@
 # How to install GNS3 on Arch Based Linux</br>
 
 **Install the following packages:**</br>
-yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git gperftools --noconfirm
+yes|yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt-git gperftools --noconfirm
 
 **Add your username to the following groups:**</br>
 sudo usermod -aG docker username</br>
