@@ -5,6 +5,8 @@ sudo reflector --protocol https --latest 10 --sort rate -c CN,HK,TW,SG --save /e
 
 # INITIAL PACKAGE
 sudo pacman -S yakuake gimp libreoffice ktorrent simplescreenrecorder sweeper partitionmanager plasma-systemmonitor ksysguard ufw plasma-firewall neofetch kcalc htop kwallet --noconfirm
+# GNOME
+sudo pacman -S gimp libreoffice simplescreenrecorder ufw neofetch htop gnome-calculator gnome-calendar gnome-photos gnome-music transmission-gtk --noconfirm
 yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 plasma5-applets-thermal-monitor-git --noconfirm
 
 # FIREWALL CONFIGURATION
