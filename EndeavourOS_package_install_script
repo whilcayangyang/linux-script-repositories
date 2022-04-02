@@ -14,6 +14,9 @@ yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 gnome-shell-extension-bl
 # SCREEN RECORD BUG FIXED
 sudo pacman -Rns xf86-video-intel
 
+# KDE Plasma Error
+rm -rf ~/.cache/*plasma* ; killall plasmashell && kstart5 plasmashell
+
 # FIREWALL CONFIGURATION
 sudo ufw enable
 sudo systemctl enable --now ufw
