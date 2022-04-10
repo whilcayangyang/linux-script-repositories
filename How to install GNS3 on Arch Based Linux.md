@@ -19,3 +19,8 @@ wget https://raw.githubusercontent.com/libvirt/libvirt/master/src/network/defaul
 sudo virsh net-define /tmp/default.xml.in</br>
 sudo virsh net-autostart default</br>
 sudo virsh net-start default</br>
+sudo virsh net-list</br>
+</br>
+ Name      State    Autostart   Persistent</br>
+--------------------------------------------</br>
+ default   active   yes         yes</br>
