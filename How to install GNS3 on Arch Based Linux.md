@@ -15,7 +15,7 @@ sudo systemctl enable --now libvirtd</br>
 
 **Libvirt error?**</br>
 sudo pacman -S libvirt --noconfirm</br>
-sudo systemctl start libvirtd
+sudo systemctl enable --now libvirtd</br>
 sudo virsh net-autostart default</br>
 
 **Reboot the Linux**</br>
