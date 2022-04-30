@@ -24,6 +24,6 @@ reboot<br>
 **Check the interface**</br>
 sudo virsh net-list --all</br>
 </br>
- Name      State    Autostart   Persistent</br>
+ Name --- State --- Autostart --- Persistent</br>
 --------------------------------------------</br>
- default   active   yes         yes</br>
+ default -- active --- yes -------- yes</br>
