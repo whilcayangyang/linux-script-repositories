@@ -18,14 +18,11 @@ sudo pacman -S libvirt --noconfirm</br>
 sudo systemctl start libvirtd
 sudo virsh net-autostart default</br>
 
-wget https://raw.githubusercontent.com/libvirt/libvirt/master/src/network/default.xml.in</br>
-virsh net-define /tmp/default.xml.in</br>
-virsh net-autostart default</br>
+**Reboot the Linux**</br>
+reboot<br>
 
-
-
-sudo virsh net-start default</br>
-sudo virsh net-list</br>
+**Check the interface**</br>
+sudo virsh net-list --all</br>
 </br>
  Name      State    Autostart   Persistent</br>
 --------------------------------------------</br>
