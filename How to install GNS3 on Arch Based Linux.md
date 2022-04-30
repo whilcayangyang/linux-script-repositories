@@ -15,9 +15,15 @@ sudo systemctl enable --now libvirtd</br>
 
 **Libvirt error?**</br>
 sudo pacman -S libvirt --noconfirm</br>
-wget https://raw.githubusercontent.com/libvirt/libvirt/master/src/network/default.xml.in</br>
-sudo virsh net-define /tmp/default.xml.in</br>
+sudo systemctl start libvirtd
 sudo virsh net-autostart default</br>
+
+wget https://raw.githubusercontent.com/libvirt/libvirt/master/src/network/default.xml.in</br>
+virsh net-define /tmp/default.xml.in</br>
+virsh net-autostart default</br>
+
+
+
 sudo virsh net-start default</br>
 sudo virsh net-list</br>
 </br>
