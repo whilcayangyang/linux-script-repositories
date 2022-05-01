@@ -8,8 +8,8 @@ sudo pacman -S yakuake gimp libreoffice ktorrent simplescreenrecorder sweeper pa
 yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 plasma5-applets-thermal-monitor-git --noconfirm
 
 # GNOME
-sudo pacman -S cheese gnome-weather geary pitivi gparted gimp libreoffice simplescreenrecorder neofetch htop gnome-clocks gnome-calendar transmission-gtk bleachbit rhythmbox simple-scan --noconfirm
-yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 gnome-shell-extension-blur-my-shell-git gnome-shell-extension-system-monitor-git --noconfirm
+sudo pacman -S cheese gnome-weather geary pitivi gparted gimp libreoffice gnome-system-monitor neofetch htop gnome-clocks gnome-calendar transmission-gtk bleachbit rhythmbox simple-scan --noconfirm
+yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 gnome-shell-extension-dash-to-dock gnome-shell-extension-system-monitor-git --noconfirm
 
 # SCREEN RECORD BUG FIXED
 sudo pacman -Rns xf86-video-intel
