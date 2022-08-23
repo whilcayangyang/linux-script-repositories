@@ -1,4 +1,4 @@
-# How to install GNS3 on Ubuntu based distro </br>
+# How to install GNS3 on Ubuntu Based Distro </br>
 
 **Add GNS3 repositories** <br>
 - sudo add-apt-repository ppa:gns3/ppa <br>
