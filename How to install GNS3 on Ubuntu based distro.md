@@ -1,13 +1,13 @@
 # How to install GNS3 on Ubuntu based distro </br>
 
-**Add GNS3 repositories <br>
+** Add GNS3 repositories <br>
 sudo add-apt-repository ppa:gns3/ppa <br>
 sudo apt-key export A2E3EF7B | sudo gpg --dearmour -o /usr/share/keyrings/gns3.gpg <br>
 
-**Go to:  sudo nano /etc/apt/sources.list.d/gns3-ppa-jammy.list
-Insert the following parameter to the repo:
+** Edit the following parameter to the repo:
+sudo nano /etc/apt/sources.list.d/gns3-ppa-jammy.list
 
-[arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg]
+** [arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg]
 
 Should be like this: deb [arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg] http://ppa.launchpad.net/gns3/ppa/ubuntu jammy main
 
