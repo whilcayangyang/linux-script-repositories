@@ -15,10 +15,12 @@ Insert **[arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg]** </br>
 - sudo apt update; sudo apt install gns3-gui gns3-server -y
 
 **Install Docker CE** <br>
-- sudo apt-get install ca-certificates curl gnupg lsb-release -y </br>
-- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-keyring.gpg </br>
-- echo "deb [signed-by=/usr/share/keyrings/docker-keyring.gpg arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"|sudo tee /etc/apt/sources.list.d/docker.list </br>
-- sudo apt update; sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y </br>
+- sudo apt-get update; sudo apt-get install -y ca-certificates curl gnupg </br>
+- sudo install -m 0755 -d /etc/apt/keyrings </br>
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg </br>
+- sudo chmod a+r /etc/apt/keyrings/docker.gpg </br>
+- echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null </br>
+- sudo apt-get update; sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin </br>
 
 **Finally, add your user to the following groups:** <br>
 ubridge libvirt kvm wireshark docker </br>
