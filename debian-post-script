@@ -2,7 +2,8 @@ sudo apt autoremove -y gnome-games \
 		gnome-music \
 		libreoffice-core \
 		libreoffice-common \
-		firefox-esr
+		firefox-esr \
+		evolution
 
 sudo add-apt-repository contrib non-free
 sudo apt update
@@ -28,6 +29,8 @@ gsettings set org.gnome.software packaging-format-preference "['flatpak', 'deb']
 flatpak install --noninteractive -y flathub \
 		org.gtk.Gtk3theme.adw-gtk3 \
 		org.gtk.Gtk3theme.adw-gtk3-dark \
+		org.mozilla.firefox \
+		org.mozilla.Thunderbird \
 		org.gimp.GIMP \
 		com.calibre_ebook.calibre \
 		org.libreoffice.LibreOffice \
