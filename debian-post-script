@@ -8,6 +8,7 @@ sudo add-apt-repository contrib non-free
 sudo apt update
 sudo apt full-upgrade -y
 
+# system app
 sudo apt install -y gnome-shell-extension-system-monitor \
 		lm-sensors \
 		gnome-shell-extension-appindicator \
@@ -18,10 +19,12 @@ sudo apt install -y gnome-shell-extension-system-monitor \
 		ufw \
 		exfat-fuse
 
+# install flatpak
 sudo apt install -y flatpak gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 gsettings set org.gnome.software packaging-format-preference "['flatpak', 'deb']"
 
+# flatpak apps
 flatpak install --noninteractive -y flathub \
 		org.gtk.Gtk3theme.adw-gtk3 \
 		org.gtk.Gtk3theme.adw-gtk3-dark \
@@ -30,8 +33,10 @@ flatpak install --noninteractive -y flathub \
 		org.libreoffice.LibreOffice \
 		com.github.tchx84.Flatseal \
 		com.discordapp.Discord \
-		com.jgraph.drawio.desktop
-
+		com.jgraph.drawio.desktop \
+		io.gitlab.adhami3310.Impression \
+		
+# gns3-gui only
 sudo apt install -y python3 \
 		python3-pip \
 		pipx \
@@ -41,7 +46,8 @@ sudo apt install -y python3 \
 		software-properties-common \
 		ca-certificates \
 		curl \
-		gnupg2
+		gnupg2 \
+		virt-viewer
 pipx ensurepath
 pipx install gns3-gui
 pipx inject gns3-gui PyQt5
