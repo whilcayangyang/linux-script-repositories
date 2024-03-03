@@ -44,7 +44,7 @@ flatpak install --noninteractive -y flathub \
 		com.jgraph.drawio.desktop \
 		io.gitlab.adhami3310.Impression
 
-# KVM with Virt Manager
+# kvm qemu with virt-manager
 sudo apt install -y qemu-kvm \
 		libvirt-daemon \
 		libvirt-clients \
@@ -99,6 +99,7 @@ sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighti
 sed -i 's/plugins=(git)/plugins=(docker debian ufw systemd sudo)/' ~/.zshrc
 sed -i '$a\neofetch --color_blocks off' ~/.zshrc
 
+# laptop battery care & optimization
 sudo apt install -y tlp tlp-rdw
 sudo systemctl enable --now tlp.service
 sudo systemctl mask systemd-rfkill.service
