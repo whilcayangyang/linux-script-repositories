@@ -46,6 +46,7 @@ sudo apt install -y qemu-kvm \
 		libvirt-clients \
 		bridge-utils \
 		virt-manager
+sudo systemctl enable --now libvirtd
 
 # gns3-gui only
 sudo apt install -y python3 \
@@ -62,6 +63,7 @@ sudo apt install -y python3 \
 pipx ensurepath
 pipx install gns3-gui
 pipx inject gns3-gui PyQt5
+sudo curl -o /usr/share/applications/gns3.desktop https://raw.githubusercontent.com/GNS3/gns3-gui/master/resources/linux/applications/gns3.desktop
 
 cd /usr/share/themes
 sudo wget https://github.com/lassekongo83/adw-gtk3/releases/download/v5.2/adw-gtk3v5-2.tar.xz
