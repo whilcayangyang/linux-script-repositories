@@ -1,3 +1,4 @@
+# remove all old packages
 sudo apt autoremove -y gnome-games \
 		gnome-music \
 		libreoffice-core \
@@ -5,11 +6,12 @@ sudo apt autoremove -y gnome-games \
 		firefox-esr \
 		evolution
 
+# enable non-free repository
 sudo add-apt-repository contrib non-free
 sudo apt update
 sudo apt full-upgrade -y
 
-# system app
+# install system app
 sudo apt install -y gnome-shell-extension-system-monitor \
 		gnome-shell-extension-freon \
 		lm-sensors \
@@ -17,9 +19,11 @@ sudo apt install -y gnome-shell-extension-system-monitor \
 		papirus-icon-theme \
 		ttf-mscorefonts-installer \
 		libavcodec-extra \
-		solaar \
 		ufw \
 		exfat-fuse
+
+# logitech mouse keyboard
+sudo apt install -y solaar
 
 # install flatpak
 sudo apt install -y flatpak gnome-software-plugin-flatpak
@@ -49,15 +53,6 @@ sudo apt install -y qemu-kvm \
 sudo systemctl enable --now libvirtd
 
 # gns3 network simulator
-sudo apt install python3 \
-		python3-pip \
-		pipx \
-		python3-pyqt5 \
-		python3-pyqt5.qtwebsockets \
-		python3-pyqt5.qtsvg \
-		  software-properties-common ca-certificates curl gnupg2 
-
-
 sudo apt install -y python3 \
 		python3-pip \
 		pipx \
@@ -72,7 +67,7 @@ sudo apt install -y python3 \
 		tigervnc-viewer
 
 # dependencies for gns3-server
-sudo apt install -y qemu-kvm qemu-utils libvirt-clients libvirt-daemon-system virtinst dynamips
+sudo apt install -y qemu-kvm qemu-utils libvirt-clients libvirt-daemon-system virtinst dynamips vpcs
 sudo systemctl enable --now libvirtd
 
 pipx ensurepath
