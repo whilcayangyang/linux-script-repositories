@@ -25,9 +25,5 @@ Insert **[arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg]** </br>
 **Finally, add your user to the following groups:** <br>
 ubridge libvirt kvm wireshark docker </br>
 
-- sudo usermod -aG docker username
-- sudo usermod -aG wireshark username
-- sudo usermod -aG kvm username
-- sudo usermod -aG libvirt username
-- sudo usermod -aG ubridge username
+- sudo usermod -aG docker,wireshark,kvm,libvirt,ubridge username
 
