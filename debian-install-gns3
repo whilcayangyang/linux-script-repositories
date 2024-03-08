@@ -28,7 +28,7 @@ sudo apt install -y python3 \
 		tigervnc-viewer
 
 # install gns3-server dependencies
-sudo apt install -y qemu-kvm qemu-utils libvirt-clients libvirt-daemon-system virtinst dynamips
+sudo apt install -y qemu-kvm qemu-utils libvirt-clients libvirt-daemon-system virtinst dynamips busybox-static
 sudo systemctl enable --now libvirtd
 sudo virsh net-autostart default
 
