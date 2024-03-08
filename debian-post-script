@@ -53,6 +53,7 @@ sudo apt install -y qemu-kvm \
 		bridge-utils \
 		virt-manager
 sudo systemctl enable --now libvirtd
+sudo virsh net-autostart default
 
 # install adw-gtk3
 cd /usr/share/themes
