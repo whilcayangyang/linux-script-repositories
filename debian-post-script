@@ -57,10 +57,10 @@ sudo virsh net-autostart default
 
 # install adw-gtk3
 cd /usr/share/themes
-sudo wget https://github.com/lassekongo83/adw-gtk3/releases/download/v5.2/adw-gtk3v5-2.tar.xz
-sudo tar -xvf adw-gtk3v5-2.tar.xz
+sudo wget https://github.com/lassekongo83/adw-gtk3/releases/download/v5.3/adw-gtk3v5.3.tar.xz
+sudo tar -xvf adw-gtk3v5.3.tar.xz
 sudo chown -R --reference Adwaita adw-gtk3*
-sudo rm -f adw-gtk3v5-2.tar.xz
+sudo rm -f adw-gtk3v5.3.tar.xz
 
 # install firefox gnome theme
 git clone https://github.com/rafaelmardojai/firefox-gnome-theme.git /tmp/firefox-gnome-theme
