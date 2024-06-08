@@ -71,7 +71,6 @@ sudo apt install -y zsh \
 		fonts-powerline \
 		zsh-autosuggestions \
 		zsh-syntax-highlighting \
-		neofetch \
 		curl \
 		git
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
