@@ -77,11 +77,13 @@ sudo apt install -y zsh \
 		fonts-powerline \
 		zsh-autosuggestions \
 		zsh-syntax-highlighting \
+		git \
+		hyfetch
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
 sed -i 's/plugins=(git)/plugins=(docker debian ufw systemd sudo)/' ~/.zshrc
-sed -i '$a\neofetch --color_blocks off' ~/.zshrc
+sed -i '$a\hyfetch' ~/.zshrc
 
 # laptop battery care & optimization
 sudo apt install -y tlp tlp-rdw

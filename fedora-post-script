@@ -1,0 +1,142 @@
+#!/bin/bash
+user=$(whoami)
+laptop=$(hostnamectl chassis | grep laptop)
+desktop=$(hostnamectl chassis | grep desktop)
+
+# system upgrade / remove necessary package
+sudo dnf update -y
+
+# install necessary package
+sudo dnf install -y gnome-shell-extension-system-monitor-applet \
+			gnome-shell-extension-blur-my-shell \
+			gnome-shell-extension-appindicator \
+			gnome-tweaks \
+			gnome-extensions-app \
+			lm_sensors \
+			adw-gtk3-theme \
+			thunderbird
+
+# install kvm virtualization
+sudo dnf install -y bridge-utils \
+			libvirt \
+			virt-install \
+			virt-manager \
+			qemu-kvm
+sudo usermod -aG libvirt $user
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+
+# install gns3 on Desktop
+if [ $desktop ]; then
+	sudo dnf install -y gns3-gui \
+			gns3-server \
+			wireshark \
+			tigervnc
+	sudo usermod -aG kvm,wireshark $user
+
+else
+	echo "Nothing to do!"; sleep 2
+fi
+
+# remove gnome-boxes
+sudo dnf autoremove -y gnome-boxes
+
+# install fedora docker-ce
+sudo dnf remove -y docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce \
+		docker-ce-cli \
+		containerd.io \
+		docker-buildx-plugin \
+		docker-compose-plugin
+sudo systemctl enable --now docker
+sudo usermod -aG docker $user
+
+# enable flatpak flathub and disable fedora flatpak
+sudo flatpak remote-modify --disable fedora
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-modify --enable flathub
+
+# gnome-software make flatpak as default
+gsettings set org.gnome.software packaging-format-preference "['flatpak', 'rpm']"
+
+# install flatpak packages
+flatpak install --noninteractive -y flathub \
+		org.gtk.Gtk3theme.adw-gtk3 \
+		org.gtk.Gtk3theme.adw-gtk3-dark \
+		org.gimp.GIMP \
+		com.transmissionbt.Transmission \
+		com.calibre_ebook.calibre \
+		org.libreoffice.LibreOffice \
+		com.github.tchx84.Flatseal \
+		com.jgraph.drawio.desktop \
+		it.mijorus.gearlever \
+		org.filezillaproject.Filezilla
+
+# enable rpmfusion
+sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# install multimedia codes
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf groupupdate -y sound-and-video
+sudo dnf install -y intel-media-driver
+
+# Firefox Gnome Theme
+curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
+
+# laptop battery optimize
+if [ $laptop ]; then
+	sudo dnf remove -y power-profiles-daemon
+	sudo dnf install -y tlp tlp-rdw
+	sudo systemctl enable --now tlp.service
+	sudo systemctl mask systemd-rfkill.service
+	sudo systemctl mask systemd-rfkill.socket
+
+# optimize tlp settings
+	sudo sed -i 's/#CPU_BOOST_ON_AC=1/CPU_BOOST_ON_AC=1/' /etc/tlp.conf
+	sudo sed -i 's/#CPU_BOOST_ON_BAT=0/CPU_BOOST_ON_BAT=0/' /etc/tlp.conf
+	
+	sudo sed -i 's/#CPU_HWP_DYN_BOOST_ON_AC=1/CPU_HWP_DYN_BOOST_ON_AC=1/' /etc/tlp.conf
+	sudo sed -i 's/#CPU_HWP_DYN_BOOST_ON_BAT=0/CPU_HWP_DYN_BOOST_ON_BAT=0/' /etc/tlp.conf
+	
+	sudo sed -i 's/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=performance/' /etc/tlp.conf
+	sudo sed -i 's/#CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power/CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power/' /etc/tlp.conf
+
+	sudo sed -i 's/#CPU_SCALING_GOVERNOR_ON_AC=powersave/CPU_SCALING_GOVERNOR_ON_AC=performance/' /etc/tlp.conf
+	sudo sed -i 's/#CPU_SCALING_GOVERNOR_ON_BAT=powersave/CPU_SCALING_GOVERNOR_ON_BAT=powersave/' /etc/tlp.conf
+	
+	sudo sed -i 's/#PLATFORM_PROFILE_ON_AC=performance/PLATFORM_PROFILE_ON_AC=performance/' /etc/tlp.conf
+	sudo sed -i 's/#PLATFORM_PROFILE_ON_BAT=low-power/PLATFORM_PROFILE_ON_BAT=balanced/' /etc/tlp.conf
+
+# NOTE: Threshold values depends on the laptop vendor. See documentation: https://linrunner.de/tlp/settings/bc-vendors.html
+	sudo sed -i 's/#START_CHARGE_THRESH_BAT0=75/START_CHARGE_THRESH_BAT0=0/' /etc/tlp.conf
+	sudo sed -i 's/#STOP_CHARGE_THRESH_BAT0=80/STOP_CHARGE_THRESH_BAT0=1/' /etc/tlp.conf
+	
+	sudo sed -i 's/#RESTORE_DEVICE_STATE_ON_STARTUP=0/RESTORE_DEVICE_STATE_ON_STARTUP=1/' /etc/tlp.conf
+
+else
+	echo "Nothing to do!"; sleep 2
+fi
+
+# install OhMyZsh
+sudo dnf install -y zsh \
+		powerline-fonts \
+		zsh-autosuggestions \
+		zsh-syntax-highlighting
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
+sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
+sed -i '$a\neofetch --color_blocks off' ~/.zshrc
