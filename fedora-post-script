@@ -3,18 +3,22 @@ user=$(whoami)
 laptop=$(hostnamectl chassis | grep laptop)
 desktop=$(hostnamectl chassis | grep desktop)
 
+# enable rpmfusion
+sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
 # system upgrade / remove necessary package
 sudo dnf update -y
 
 # install necessary package
 sudo dnf install -y gnome-shell-extension-system-monitor-applet \
-			gnome-shell-extension-blur-my-shell \
 			gnome-shell-extension-appindicator \
 			gnome-tweaks \
 			gnome-extensions-app \
-			lm_sensors \
 			adw-gtk3-theme \
-			thunderbird
+			filezilla \
+			transmission \
+			steam
 
 # install kvm virtualization
 sudo dnf install -y bridge-utils \
@@ -23,23 +27,8 @@ sudo dnf install -y bridge-utils \
 			virt-manager \
 			qemu-kvm
 sudo usermod -aG libvirt $user
-sudo systemctl start libvirtd
-sudo systemctl enable libvirtd
-
-# install gns3 on Desktop
-if [ $desktop ]; then
-	sudo dnf install -y gns3-gui \
-			gns3-server \
-			wireshark \
-			tigervnc
-	sudo usermod -aG kvm,wireshark $user
-
-else
-	echo "Nothing to do!"; sleep 2
-fi
-
-# remove gnome-boxes
-sudo dnf autoremove -y gnome-boxes
+sudo systemctl enable --now libvirtd
+sudo dnf remove -y gnome-boxes
 
 # install fedora docker-ce
 sudo dnf remove -y docker \
@@ -64,7 +53,6 @@ sudo usermod -aG docker $user
 
 # enable flatpak flathub and disable fedora flatpak
 sudo flatpak remote-modify --disable fedora
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 sudo flatpak remote-modify --enable flathub
 
 # gnome-software make flatpak as default
@@ -75,26 +63,26 @@ flatpak install --noninteractive -y flathub \
 		org.gtk.Gtk3theme.adw-gtk3 \
 		org.gtk.Gtk3theme.adw-gtk3-dark \
 		org.gimp.GIMP \
-		com.transmissionbt.Transmission \
 		com.calibre_ebook.calibre \
-		org.libreoffice.LibreOffice \
-		com.github.tchx84.Flatseal \
 		com.jgraph.drawio.desktop \
-		it.mijorus.gearlever \
-		org.filezillaproject.Filezilla
-
-# enable rpmfusion
-sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
-# install multimedia codes
-sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-sudo dnf groupupdate -y multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-sudo dnf groupupdate -y sound-and-video
-sudo dnf install -y intel-media-driver
+		it.mijorus.gearlever
 
 # Firefox Gnome Theme
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
+
+# install OhMyZsh
+sudo dnf install -y zsh \
+		curl \
+		git \
+		fastfetch \
+		powerline-fonts \
+		zsh-autosuggestions \
+		zsh-syntax-highlighting
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
+sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
+sed -i '$a\fastfetch' ~/.zshrc
 
 # laptop battery optimize
 if [ $laptop ]; then
@@ -129,14 +117,3 @@ if [ $laptop ]; then
 else
 	echo "Nothing to do!"; sleep 2
 fi
-
-# install OhMyZsh
-sudo dnf install -y zsh \
-		powerline-fonts \
-		zsh-autosuggestions \
-		zsh-syntax-highlighting
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
-sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
-sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
-sed -i '$a\neofetch --color_blocks off' ~/.zshrc
