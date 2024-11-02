@@ -69,6 +69,9 @@ flatpak install -y flathub \
 		org.gimp.GIMP \
 		com.calibre_ebook.calibre \
 		com.jgraph.drawio.desktop \
+		io.gitlab.adhami3310.Impression \
+		com.discordapp.Discord \
+		com.slack.Slack \
 		it.mijorus.gearlever
 
 # Firefox Gnome Theme
