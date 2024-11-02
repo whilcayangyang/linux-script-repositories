@@ -13,6 +13,7 @@ sudo dnf update -y
 # install basic package
 sudo dnf install -y gnome-shell-extension-system-monitor-applet \
 			gnome-shell-extension-appindicator \
+			gnome-shell-extension-drive-menu
 			gnome-tweaks \
 			gnome-extensions-app \
 			adw-gtk3-theme \
