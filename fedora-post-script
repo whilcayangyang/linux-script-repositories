@@ -13,7 +13,7 @@ sudo dnf update -y
 # install basic package
 sudo dnf install -y gnome-shell-extension-system-monitor-applet \
 			gnome-shell-extension-appindicator \
-			gnome-shell-extension-drive-menu
+			gnome-shell-extension-drive-menu \
 			gnome-tweaks \
 			gnome-extensions-app \
 			adw-gtk3-theme \
@@ -54,6 +54,7 @@ sudo usermod -aG docker $user
 
 # enable flatpak flathub and disable fedora flatpak
 sudo flatpak remote-modify --disable fedora
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 sudo flatpak remote-modify --enable flathub
 
 # gnome-software make flatpak as default
