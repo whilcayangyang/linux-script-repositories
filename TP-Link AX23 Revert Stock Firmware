@@ -1,0 +1,9 @@
+Reference:
+Go to TP-Link and Download 1.1.0 Build: https://www.tp-link.com/br/support/download/archer-ax23/v1.20/#Firmware
+TP-Link 1.1.0 Build: https://static.tp-link.com/upload/firmware/2023/202312/20231208/Archer%20AX23(US)_1.2_230725.zip
+
+opkg update
+opkg install kmod-mtd-rw
+insmod mtd-rw.ko i_want_a_brick=1
+echo "1.1.0 Build" > /tmp/vers.ion
+dd if=/tmp/vers.ion of=/dev/mtd6 seek=198673 count=11 bs=1 conv=notrunc
