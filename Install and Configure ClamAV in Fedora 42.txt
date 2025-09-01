@@ -31,4 +31,4 @@ sudo systemctl enable --now clamd@scan.service clamav-clamonacc.service
 sudo setsebool -P antivirus_can_scan_system 1
 
 # Sample manual scanning:
-sudo clamdscan --fdpass --allmatch /home/whil/Documents
+sudo clamdscan --fdpass --allmatch /home/user/Documents
