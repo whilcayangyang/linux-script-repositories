@@ -1,0 +1,34 @@
+# Install ClamAV Packages
+sudo dnf install -y clamav clamav-freshclam clamd
+
+# Enable Automatic ClamAV Database Update
+sudo systemctl enable --now clamav-freshclam.service
+
+# Edit config
+sudo vim /etc/clamd.d/scan.conf
+
+# Uncomment following:
+- LocalSocket
+- LocalSocketGroup
+- LocalSocketMode
+- FixStaleSocket
+
+# Enable On-access Scan Settings
+OnAccessIncludePath /home/user/Downloads
+OnAccessIncludePath /home/user/Documents
+OnAccessExcludeRootUID yes
+OnAccessExcludeUname clamscan
+OnAccessPrevention yes
+
+# Add following line:
+ExecStart=/usr/sbin/clamonacc --fdpass -F --config-file=/etc/clamd.d/scan.conf --move=/root/quarantine
+
+# Enable ClamAV Services
+sudo systemctl daemon-reload
+sudo systemctl enable --now clamd@scan.service clamav-clamonacc.service
+
+# Allow ClamAV in SELinux
+sudo setsebool -P antivirus_can_scan_system 1
+
+# Sample manual scanning:
+sudo clamdscan --fdpass --allmatch /home/whil/Documents
