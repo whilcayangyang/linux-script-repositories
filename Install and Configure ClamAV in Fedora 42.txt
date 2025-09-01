@@ -21,6 +21,7 @@ OnAccessExcludeUname clamscan
 OnAccessPrevention yes
 
 # Add following line:
+sudo vim /usr/lib/systemd/system/clamav-clamonacc.service
 ExecStart=/usr/sbin/clamonacc --fdpass -F --config-file=/etc/clamd.d/scan.conf --move=/root/quarantine
 
 # Enable ClamAV Services
