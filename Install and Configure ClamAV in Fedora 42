@@ -23,7 +23,7 @@ OnAccessPrevention yes
 # Quarantine Folder
 sudo mkdir -p /var/quarantine/clamav
 sudo chown -R clamscan:clamscan /var/quarantine/clamav
-sudo chmod -R 700 /var/quarantine/clamav
+sudo chmod -R 0700 /var/quarantine/clamav
 
 # Add following line in  /etc/fstab:
 tmpfs /var/quarantine/clamav tmpfs defaults,noexec,nosuid,nodev 0 0
