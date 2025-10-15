@@ -1,56 +1,75 @@
-#!/bin/bash
+# EndeavourOS Post-Install Manual
 
-# EDIT THE COUNTRY CODE WITH YOUR LOCATION FOR FASTER MIRROR
+## 1. Update Mirror List (Edit country codes for your location)
+
+```bash
 sudo reflector --protocol https --latest 10 --sort rate -c CN,HK,TW,SG --save /etc/pacman.d/mirrorlist --verbose
+```
 
-# KDE PACKAGE
+## 2. Install KDE Packages
+
+```bash
 sudo pacman -S yakuake gimp libreoffice ktorrent simplescreenrecorder sweeper partitionmanager plasma-systemmonitor ksysguard ufw plasma-firewall neofetch kcalc htop kwallet --noconfirm
 yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 plasma5-applets-thermal-monitor-git --noconfirm
+```
 
-# GNOME
+## 3. Install GNOME Packages
+
+```bash
 sudo pacman -S cheese gnome-weather geary pitivi gparted gimp libreoffice gnome-system-monitor neofetch htop gnome-clocks gnome-calendar transmission-gtk bleachbit rhythmbox simple-scan --noconfirm
 yay -S brave-bin zoom viber ttf-ms-fonts sublime-text-4 gnome-shell-extension-dash-to-dock gnome-shell-extension-system-monitor-git --noconfirm
+```
 
-# SCREEN RECORD BUG FIXED
+## 4. Fix Screen Record Bug
+
+```bash
 sudo pacman -Rns xf86-video-intel
+```
 
-# KDE Plasma Error
-rm -rf ~/.cache/*plasma* ; killall plasmashell && kstart5 plasmashell
+## 5. KDE Plasma Error Fix
 
-# FIREWALL CONFIGURATION
+```bash
+rm -rf ~/.cache/*plasma*
+killall plasmashell
+kstart5 plasmashell
+```
+
+## 6. Firewall Configuration
+
+```bash
 sudo ufw enable
 sudo systemctl enable --now ufw
+```
 
-# TIMESHIFT SYSTEM BACKUP AND RESTORE
+## 7. Timeshift System Backup and Restore
+
+```bash
 yay -S grub-btrfs timeshift timeshift-autosnap --noconfirm
 sudo systemctl enable --now grub-btrfs
+```
 
-# LAPTOP UTILITIES
-if hostnamectl | grep laptop > /dev/null; then
-	# bluetooth management
-	sudo pacman -S bluedevil --noconfirm
-	
-	# battery saving utilities
-	yay -S tlp tlp-rdw auto-cpufreq --noconfirm
-	
-	# systemd enable
-	sudo systemctl enable --now tlp
-	sudo systemctl enable --now auto-cpufreq
-	sudo systemctl enable --now bluetooth
-	
-else echo "Nothing to do"
+## 8. Laptop Utilities (if on laptop)
 
-fi
+```bash
+sudo pacman -S bluedevil --noconfirm
+yay -S tlp tlp-rdw auto-cpufreq --noconfirm
+sudo systemctl enable --now tlp
+sudo systemctl enable --now auto-cpufreq
+sudo systemctl enable --now bluetooth
+```
 
-# SSD OPTIMIZE
-if cat /sys/block/sda/queue/rotational | grep 0 > /dev/null; then
-	sudo systemctl enable --now fstrim
+## 9. SSD Optimization (if SSD detected)
 
-else echo "Nothing to do"
+```bash
+sudo systemctl enable --now fstrim
+```
 
-fi
+## 10. Package Maintenance
 
-# PACKAGE MAINTENANCE
+```bash
 yay -Sc --noconfirm
 sudo pacman -Sc --noconfirm
 sudo pacman -Qtdq | sudo pacman -Rns - --noconfirm
+```
+
+---

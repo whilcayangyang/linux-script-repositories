@@ -32,7 +32,11 @@ sudo dnf install -y gnome-shell-extension-system-monitor-applet \
 ## 4. Install KVM Virtualization
 
 ```bash
-sudo dnf install -y bridge-utils libvirt virt-install virt-manager qemu-kvm
+sudo dnf install -y bridge-utils \
+    libvirt \
+    virt-install \
+    virt-manager \
+    qemu-kvm
 sudo usermod -aG libvirt $(whoami)
 sudo systemctl enable --now libvirtd
 sudo dnf remove -y gnome-boxes
@@ -41,10 +45,23 @@ sudo dnf remove -y gnome-boxes
 ## 5. Install Docker CE
 
 ```bash
-sudo dnf remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine
+sudo dnf remove -y docker \
+    docker-client \
+    docker-client-latest \
+    docker-common \
+    docker-latest \
+    docker-latest-logrotate \
+    docker-logrotate \
+    docker-selinux \
+    docker-engine-selinux \
+    docker-engine
 sudo dnf install -y dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo dnf install -y docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
 sudo systemctl enable --now docker
 sudo usermod -aG docker $(whoami)
 ```
@@ -87,8 +104,19 @@ curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme
 ## 10. Install OhMyZsh and Plugins
 
 ```bash
-sudo dnf install -y zsh curl git fastfetch powerline-fonts zsh-autosuggestions zsh-syntax-highlighting
+sudo dnf install -y zsh \
+    curl \
+    git \
+    fastfetch \
+    powerline-fonts \
+    zsh-autosuggestions \
+    zsh-syntax-highlighting
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+Add plugins and fastfetch to `.zshrc`:
+
+```bash
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
 sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
@@ -104,9 +132,7 @@ sudo dnf check-update
 sudo dnf install -y code
 ```
 
-## 12. Laptop Battery Optimization (Optional)
-
-If you are using a laptop, run:
+## 12. Laptop Battery Optimization (if on laptop)
 
 ```bash
 sudo dnf remove -y power-profiles-daemon
@@ -118,26 +144,24 @@ sudo systemctl mask systemd-rfkill.socket
 
 ### Optimize TLP Settings
 
-Edit `/etc/tlp.conf` and update the following parameters:
+> **Note:** Threshold values depend on the laptop vendor. See documentation: https://linrunner.de/tlp/settings/bc-vendors.html
 
+```bash
+sed -i 's/#CPU_BOOST_ON_AC=1/CPU_BOOST_ON_AC=1/' /etc/tlp.conf
+sed -i 's/#CPU_BOOST_ON_BAT=0/CPU_BOOST_ON_BAT=0/' /etc/tlp.conf
+sed -i 's/#CPU_HWP_DYN_BOOST_ON_AC=1/CPU_HWP_DYN_BOOST_ON_AC=1/' /etc/tlp.conf
+sed -i 's/#CPU_HWP_DYN_BOOST_ON_BAT=0/CPU_HWP_DYN_BOOST_ON_BAT=0/' /etc/tlp.conf
+sed -i 's/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=performance/' /etc/tlp.conf
+sed -i 's/#CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power/CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power/' /etc/tlp.conf
+sed -i 's/#CPU_SCALING_GOVERNOR_ON_AC=powersave/CPU_SCALING_GOVERNOR_ON_AC=performance/' /etc/tlp.conf
+sed -i 's/#CPU_SCALING_GOVERNOR_ON_BAT=powersave/CPU_SCALING_GOVERNOR_ON_BAT=powersave/' /etc/tlp.conf
+sed -i 's/#PLATFORM_PROFILE_ON_AC=performance/PLATFORM_PROFILE_ON_AC=performance/' /etc/tlp.conf
+sed -i 's/#PLATFORM_PROFILE_ON_BAT=low-power/PLATFORM_PROFILE_ON_BAT=balanced/' /etc/tlp.conf
+sed -i 's/#START_CHARGE_THRESH_BAT0=75/START_CHARGE_THRESH_BAT0=0/' /etc/tlp.conf
+sed -i 's/#STOP_CHARGE_THRESH_BAT0=80/STOP_CHARGE_THRESH_BAT0=1/' /etc/tlp.conf
+sed -i 's/#RESTORE_DEVICE_STATE_ON_STARTUP=0/RESTORE_DEVICE_STATE_ON_STARTUP=1/' /etc/tlp.conf
 ```
-CPU_BOOST_ON_AC=1
-CPU_BOOST_ON_BAT=0
-CPU_HWP_DYN_BOOST_ON_AC=1
-CPU_HWP_DYN_BOOST_ON_BAT=0
-CPU_ENERGY_PERF_POLICY_ON_AC=performance
-CPU_ENERGY_PERF_POLICY_ON_BAT=balance_power
-CPU_SCALING_GOVERNOR_ON_AC=performance
-CPU_SCALING_GOVERNOR_ON_BAT=powersave
-PLATFORM_PROFILE_ON_AC=performance
-PLATFORM_PROFILE_ON_BAT=balanced
-START_CHARGE_THRESH_BAT0=0
-STOP_CHARGE_THRESH_BAT0=1
-RESTORE_DEVICE_STATE_ON_STARTUP=1
-```
-
-> **Note:** Threshold values depend on the laptop vendor. See [TLP documentation](https://linrunner.de/tlp/settings/bc-vendors.html).
-
----
 
 If not a laptop, nothing to do.
+
+---
