@@ -1,17 +1,32 @@
-# Debian Post-Install Script Manual
+# Debian GNOME Desktop Post-Install Guide
 
-## 1. Remove Old Packages
+A step-by-step guide for configuring and optimizing a fresh Debian GNOME Desktop installation.
+
+## Table of Contents
+
+- [Remove Unwanted Packages](#remove-unwanted-packages)
+- [Enable Non-Free Repository](#enable-non-free-repository)
+- [Install Essential System Apps](#install-essential-system-apps)
+- [Configure Firewall](#configure-firewall)
+- [Logitech Device Support](#logitech-device-support)
+- [Flatpak & GNOME Software](#flatpak--gnome-software)
+- [Install Flatpak Apps](#install-flatpak-apps)
+- [KVM/QEMU Virtualization (Optional)](#kvmqemu-virtualization-optional)
+- [Install adw-gtk3 Theme](#install-adw-gtk3-theme)
+- [Firefox GNOME Theme](#firefox-gnome-theme)
+- [OhMyZsh & Plugins](#ohmyzsh--plugins)
+- [Laptop Battery Optimization](#laptop-battery-optimization)
+- [Lid Switch Behavior](#lid-switch-behavior)
+
+---
+
+## Remove Unwanted Packages
 
 ```bash
-sudo apt autoremove -y gnome-games \
-    gnome-music \
-    libreoffice-core \
-    libreoffice-common \
-    firefox-esr \
-    evolution
+sudo apt autoremove -y gnome-games gnome-music libreoffice-core libreoffice-common firefox-esr evolution
 ```
 
-## 2. Enable Non-Free Repository
+## Enable Non-Free Repository
 
 ```bash
 sudo add-apt-repository contrib non-free
@@ -19,23 +34,23 @@ sudo apt update
 sudo apt full-upgrade -y
 ```
 
-## 3. Install System Apps
+## Install Essential System Apps
 
 ```bash
 sudo apt install -y gnome-shell-extension-system-monitor \
-    gnome-shell-extension-freon \
-    lm-sensors \
-    gnome-shell-extension-appindicator \
-    papirus-icon-theme \
-    ttf-mscorefonts-installer \
-    libavcodec-extra \
-    ufw \
-    curl \
-    git \
-    exfat-fuse
+  gnome-shell-extension-freon \
+  lm-sensors \
+  gnome-shell-extension-appindicator \
+  papirus-icon-theme \
+  ttf-mscorefonts-installer \
+  libavcodec-extra \
+  ufw \
+  curl \
+  git \
+  exfat-fuse
 ```
 
-## 4. Enable Firewall
+## Configure Firewall
 
 ```bash
 sudo ufw enable
@@ -43,13 +58,13 @@ sudo ufw limit ssh
 sudo ufw reload
 ```
 
-## 5. Logitech Mouse/Keyboard Support
+## Logitech Device Support
 
 ```bash
 sudo apt install -y solaar
 ```
 
-## 6. Install Flatpak and GNOME Software Plugin
+## Flatpak & GNOME Software
 
 ```bash
 sudo apt install -y flatpak gnome-software-plugin-flatpak
@@ -57,29 +72,29 @@ sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flat
 gsettings set org.gnome.software packaging-format-preference "['flatpak', 'deb']"
 ```
 
-## 7. Install Flatpak Apps
+## Install Flatpak Apps
 
 ```bash
 flatpak install --noninteractive -y flathub \
-    org.gtk.Gtk3theme.adw-gtk3 \
-    org.gtk.Gtk3theme.adw-gtk3-dark \
-    org.mozilla.firefox \
-    org.mozilla.Thunderbird \
-    org.gimp.GIMP \
-    com.calibre_ebook.calibre \
-    org.libreoffice.LibreOffice \
-    com.github.tchx84.Flatseal \
-    com.discordapp.Discord \
-    com.jgraph.drawio.desktop \
-    io.gitlab.adhami3310.Impression \
-    it.mijorus.gearlever \
-    org.filezillaproject.Filezilla \
-    com.sindresorhus.Caprine
+  org.gtk.Gtk3theme.adw-gtk3 \
+  org.gtk.Gtk3theme.adw-gtk3-dark \
+  org.mozilla.firefox \
+  org.mozilla.Thunderbird \
+  org.gimp.GIMP \
+  com.calibre_ebook.calibre \
+  org.libreoffice.LibreOffice \
+  com.github.tchx84.Flatseal \
+  com.discordapp.Discord \
+  com.jgraph.drawio.desktop \
+  io.gitlab.adhami3310.Impression \
+  it.mijorus.gearlever \
+  org.filezillaproject.Filezilla \
+  com.sindresorhus.Caprine
 ```
 
-## 8. (Optional) KVM/QEMU with Virt-Manager
+## KVM/QEMU Virtualization (Optional)
 
-> Disabled by default. Uncomment to use.
+> Uncomment to enable virtualization.
 
 ```bash
 # sudo apt install -y qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager
@@ -87,7 +102,7 @@ flatpak install --noninteractive -y flathub \
 # sudo virsh net-autostart default
 ```
 
-## 9. Install adw-gtk3 Theme
+## Install adw-gtk3 Theme
 
 ```bash
 cd /usr/share/themes
@@ -97,13 +112,13 @@ sudo chown -R --reference Adwaita adw-gtk3*
 sudo rm -f adw-gtk3v5.3.tar.xz
 ```
 
-## 10. Install Firefox GNOME Theme
+## Firefox GNOME Theme
 
 ```bash
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 ```
 
-## 11. Install OhMyZsh and Plugins
+## OhMyZsh & Plugins
 
 ```bash
 sudo apt install -y zsh fonts-powerline zsh-autosuggestions zsh-syntax-highlighting git fastfetch
@@ -114,7 +129,7 @@ sed -i 's/plugins=(git)/plugins=(docker debian ufw systemd sudo)/' ~/.zshrc
 sed -i '$a\fastfetch' ~/.zshrc
 ```
 
-## 12. Laptop Battery Care & Optimization
+## Laptop Battery Optimization
 
 ```bash
 sudo apt install -y tlp tlp-rdw
@@ -124,7 +139,7 @@ sudo systemctl mask systemd-rfkill.socket
 sudo systemctl mask power-profiles-daemon.service
 ```
 
-### Optimize TLP Settings
+### TLP Settings
 
 ```bash
 sed -i 's/#CPU_BOOST_ON_AC=1/CPU_BOOST_ON_AC=1/' /etc/tlp.conf
@@ -142,7 +157,7 @@ sed -i 's/#STOP_CHARGE_THRESH_BAT0=80/STOP_CHARGE_THRESH_BAT0=1/' /etc/tlp.conf
 sed -i 's/#RESTORE_DEVICE_STATE_ON_STARTUP=0/RESTORE_DEVICE_STATE_ON_STARTUP=1/' /etc/tlp.conf
 ```
 
-### Optimize Lid Switch Behavior
+## Lid Switch Behavior
 
 ```bash
 sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=suspend/' /etc/systemd/logind.conf

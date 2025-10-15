@@ -1,6 +1,20 @@
-# Debian GNS3 Installation Manual
+# GNS3 Installation Guide for Debian
 
-## 1. Install Docker CE
+Step-by-step instructions for installing GNS3 and dependencies on Debian.
+
+## Table of Contents
+
+- [Install Docker CE](#install-docker-ce)
+- [Install GNS3-GUI Dependencies](#install-gns3-gui-dependencies)
+- [Install GNS3-Server Dependencies](#install-gns3-server-dependencies)
+- [Install Ubridge](#install-ubridge)
+- [Install GNS3 via pipx](#install-gns3-via-pipx)
+- [Create GNS3 App Shortcut](#create-gns3-app-shortcut)
+- [Add User to Groups](#add-user-to-groups)
+
+---
+
+## Install Docker CE
 
 ```bash
 sudo apt install -y ca-certificates curl git
@@ -12,24 +26,13 @@ sudo apt update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-## 2. Install GNS3-GUI Dependencies
+## Install GNS3-GUI Dependencies
 
 ```bash
-sudo apt install -y python3 \
-    python3-pip \
-    pipx \
-    python3-pyqt5 \
-    python3-pyqt5.qtwebsockets \
-    python3-pyqt5.qtsvg \
-    software-properties-common \
-    ca-certificates \
-    curl \
-    gnupg2 \
-    wireshark \
-    tigervnc-viewer
+sudo apt install -y python3 python3-pip pipx python3-pyqt5 python3-pyqt5.qtwebsockets python3-pyqt5.qtsvg software-properties-common ca-certificates curl gnupg2 wireshark tigervnc-viewer
 ```
 
-## 3. Install GNS3-Server Dependencies
+## Install GNS3-Server Dependencies
 
 ```bash
 sudo apt install -y qemu-kvm qemu-utils libvirt-clients libvirt-daemon-system virtinst dynamips busybox-static
@@ -37,7 +40,7 @@ sudo systemctl enable --now libvirtd
 sudo virsh net-autostart default
 ```
 
-## 4. Install Ubridge
+## Install Ubridge
 
 ```bash
 sudo apt install -y libpcap-dev
@@ -47,7 +50,7 @@ make
 sudo make install
 ```
 
-## 5. Install GNS3-GUI & GNS3-Server via pipx
+## Install GNS3 via pipx
 
 ```bash
 pipx ensurepath
@@ -56,7 +59,7 @@ pipx install gns3-gui
 pipx inject gns3-gui gns3-server PyQt5
 ```
 
-## 6. Create GNS3 App Shortcut
+## Create GNS3 App Shortcut
 
 ```bash
 sudo curl -o /usr/share/applications/gns3.desktop https://raw.githubusercontent.com/GNS3/gns3-gui/master/resources/linux/applications/gns3.desktop
@@ -74,9 +77,9 @@ sudo curl -o /usr/share/icons/hicolor/scalable/apps/application-x-gns3project.sv
 sudo update-icon-caches /usr/share/icons/*
 ```
 
-## 7. Add User to Required Groups
+## Add User to Groups
 
-Replace `$user` with your username if needed.
+Replace `$user` with your username.
 
 ```bash
 sudo usermod -aG docker,wireshark,kvm,libvirt $user

@@ -1,13 +1,25 @@
-# How to Install GNS3 on Ubuntu-Based Distros
+# GNS3 Installation Guide for Ubuntu-Based Distros
 
-## 1. Add GNS3 Repository
+Instructions for installing GNS3 and dependencies on Ubuntu-based distributions.
+
+## Table of Contents
+
+- [Add GNS3 Repository](#add-gns3-repository)
+- [Edit Repository Source](#edit-repository-source)
+- [Install GNS3 Packages](#install-gns3-packages)
+- [Install Docker CE](#install-docker-ce)
+- [Add User to Groups](#add-user-to-groups)
+
+---
+
+## Add GNS3 Repository
 
 ```bash
 sudo add-apt-repository ppa:gns3/ppa
 sudo apt-key export A2E3EF7B | sudo gpg --dearmour -o /usr/share/keyrings/gns3.gpg
 ```
 
-## 2. Edit Repository Source
+## Edit Repository Source
 
 ```bash
 sudo nano /etc/apt/sources.list.d/gns3-ppa-jammy.list
@@ -19,14 +31,14 @@ Change the line to:
 deb [arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg] http://ppa.launchpad.net/gns3/ppa/ubuntu jammy main
 ```
 
-## 3. Install GNS3 Packages
+## Install GNS3 Packages
 
 ```bash
 sudo apt update
 sudo apt install gns3-gui gns3-server -y
 ```
 
-## 4. Install Docker CE
+## Install Docker CE
 
 ```bash
 sudo apt-get update
@@ -39,7 +51,7 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-## 5. Add User to Required Groups
+## Add User to Groups
 
 Replace `username` with your actual username.
 

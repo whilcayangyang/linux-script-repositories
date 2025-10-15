@@ -1,32 +1,49 @@
-# Install and Configure ClamAV in Fedora 42
+# ClamAV Installation & Configuration Guide for Fedora 42
 
-## 1. Install ClamAV Packages
+Instructions for installing, configuring, and enabling ClamAV antivirus on Fedora 42.
+
+## Table of Contents
+
+- [Install ClamAV Packages](#install-clamav-packages)
+- [Enable Automatic Database Update](#enable-automatic-database-update)
+- [Edit Scan Configuration](#edit-scan-configuration)
+- [Enable On-access Scan](#enable-on-access-scan)
+- [Create Quarantine Folder](#create-quarantine-folder)
+- [Mount Quarantine as tmpfs](#mount-quarantine-as-tmpfs)
+- [Configure On-access Service](#configure-on-access-service)
+- [Enable Services](#enable-services)
+- [SELinux Configuration](#selinux-configuration)
+- [Manual Scanning](#manual-scanning)
+
+---
+
+## Install ClamAV Packages
 
 ```bash
 sudo dnf install -y clamav clamav-freshclam clamd
 ```
 
-## 2. Enable Automatic ClamAV Database Update
+## Enable Automatic Database Update
 
 ```bash
 sudo systemctl enable --now clamav-freshclam.service
 ```
 
-## 3. Edit ClamAV Scan Configuration
+## Edit Scan Configuration
 
 ```bash
 sudo vim /etc/clamd.d/scan.conf
 ```
 
-Uncomment the following lines in `scan.conf`:
+Uncomment these lines:
 - `LocalSocket`
 - `LocalSocketGroup`
 - `LocalSocketMode`
 - `FixStaleSocket`
 
-## 4. Enable On-access Scan Settings
+## Enable On-access Scan
 
-Add these lines to `scan.conf`:
+Add to `scan.conf`:
 
 ```
 OnAccessIncludePath /home/user/Downloads
@@ -36,7 +53,7 @@ OnAccessExcludeUname clamscan
 OnAccessPrevention yes
 ```
 
-## 5. Create Quarantine Folder
+## Create Quarantine Folder
 
 ```bash
 sudo mkdir -p /var/quarantine/clamav
@@ -44,36 +61,36 @@ sudo chown -R clamscan:clamscan /var/quarantine/clamav
 sudo chmod -R 0700 /var/quarantine/clamav
 ```
 
-## 6. Mount Quarantine Folder as tmpfs
+## Mount Quarantine as tmpfs
 
-Add the following line to `/etc/fstab`:
+Add to `/etc/fstab`:
 
 ```
 tmpfs /var/quarantine/clamav tmpfs defaults,noexec,nosuid,nodev 0 0
 ```
 
-## 7. Configure ClamAV On-access Service
+## Configure On-access Service
 
-Add the following line to `/usr/lib/systemd/system/clamav-clamonacc.service`:
+Add to `/usr/lib/systemd/system/clamav-clamonacc.service`:
 
 ```
 ExecStart=/usr/sbin/clamonacc --fdpass -F --config-file=/etc/clamd.d/scan.conf --move=/var/quarantine/clamav
 ```
 
-## 8. Enable ClamAV Services
+## Enable Services
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now clamd@scan.service clamav-clamonacc.service
 ```
 
-## 9. Allow ClamAV in SELinux
+## SELinux Configuration
 
 ```bash
 sudo setsebool -P antivirus_can_scan_system 1
 ```
 
-## 10. Manual Scanning Example
+## Manual Scanning
 
 ```bash
 sudo clamdscan --fdpass --allmatch /home/user/Documents

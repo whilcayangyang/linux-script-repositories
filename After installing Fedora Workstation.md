@@ -1,72 +1,75 @@
-# Fedora Post-Install Script Manual
+# Fedora Workstation Post-Install Guide
 
-## 1. Enable RPM Fusion Repositories
+Recommended steps for configuring Fedora Workstation after installation.
+
+## Table of Contents
+
+- [Enable RPM Fusion Repositories](#enable-rpm-fusion-repositories)
+- [System Upgrade](#system-upgrade)
+- [Install Essential Packages](#install-essential-packages)
+- [KVM Virtualization](#kvm-virtualization)
+- [Docker CE](#docker-ce)
+- [Flatpak Flathub](#flatpak-flathub)
+- [GNOME Software Flatpak Default](#gnome-software-flatpak-default)
+- [Install Flatpak Apps](#install-flatpak-apps)
+- [Firefox GNOME Theme](#firefox-gnome-theme)
+- [OhMyZsh & Plugins](#ohmyzsh--plugins)
+- [Visual Studio Code](#visual-studio-code)
+- [Laptop Battery Optimization](#laptop-battery-optimization)
+- [TLP Settings](#tlp-settings)
+
+---
+
+## Enable RPM Fusion Repositories
 
 ```bash
 sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 ```
 
-## 2. System Upgrade
+## System Upgrade
 
 ```bash
 sudo dnf update -y
 ```
 
-## 3. Install Basic Packages
+## Install Essential Packages
 
 ```bash
 sudo dnf install -y gnome-shell-extension-system-monitor-applet \
-    gnome-shell-extension-appindicator \
-    gnome-shell-extension-drive-menu \
-    gnome-tweaks \
-    gnome-extensions-app \
-    adw-gtk3-theme \
-    libreoffice-draw \
-    vim \
-    filezilla \
-    transmission \
-    steam
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-drive-menu \
+  gnome-tweaks \
+  gnome-extensions-app \
+  adw-gtk3-theme \
+  libreoffice-draw \
+  vim \
+  filezilla \
+  transmission \
+  steam
 ```
 
-## 4. Install KVM Virtualization
+## KVM Virtualization
 
 ```bash
-sudo dnf install -y bridge-utils \
-    libvirt \
-    virt-install \
-    virt-manager \
-    qemu-kvm
+sudo dnf install -y bridge-utils libvirt virt-install virt-manager qemu-kvm
 sudo usermod -aG libvirt $(whoami)
 sudo systemctl enable --now libvirtd
 sudo dnf remove -y gnome-boxes
 ```
 
-## 5. Install Docker CE
+## Docker CE
 
 ```bash
-sudo dnf remove -y docker \
-    docker-client \
-    docker-client-latest \
-    docker-common \
-    docker-latest \
-    docker-latest-logrotate \
-    docker-logrotate \
-    docker-selinux \
-    docker-engine-selinux \
-    docker-engine
+sudo dnf remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine
 sudo dnf install -y dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce \
-    docker-ce-cli \
-    containerd.io \
-    docker-buildx-plugin \
-    docker-compose-plugin
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable --now docker
 sudo usermod -aG docker $(whoami)
 ```
 
-## 6. Enable Flatpak Flathub and Disable Fedora Flatpak
+## Flatpak Flathub
 
 ```bash
 sudo flatpak remote-modify --disable fedora
@@ -74,56 +77,45 @@ sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flat
 sudo flatpak remote-modify --enable flathub
 ```
 
-## 7. Set Flatpak as Default in GNOME Software
+## GNOME Software Flatpak Default
 
 ```bash
 gsettings set org.gnome.software packaging-format-preference "['flatpak', 'rpm']"
 ```
 
-## 8. Install Flatpak Packages
+## Install Flatpak Apps
 
 ```bash
 flatpak install -y flathub \
-    org.gtk.Gtk3theme.adw-gtk3 \
-    org.gtk.Gtk3theme.adw-gtk3-dark \
-    org.gimp.GIMP \
-    com.calibre_ebook.calibre \
-    com.jgraph.drawio.desktop \
-    io.gitlab.adhami3310.Impression \
-    com.discordapp.Discord \
-    com.slack.Slack \
-    it.mijorus.gearlever
+  org.gtk.Gtk3theme.adw-gtk3 \
+  org.gtk.Gtk3theme.adw-gtk3-dark \
+  org.gimp.GIMP \
+  com.calibre_ebook.calibre \
+  com.jgraph.drawio.desktop \
+  io.gitlab.adhami3310.Impression \
+  com.discordapp.Discord \
+  com.slack.Slack \
+  it.mijorus.gearlever
 ```
 
-## 9. Install Firefox GNOME Theme
+## Firefox GNOME Theme
 
 ```bash
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 ```
 
-## 10. Install OhMyZsh and Plugins
+## OhMyZsh & Plugins
 
 ```bash
-sudo dnf install -y zsh \
-    curl \
-    git \
-    fastfetch \
-    powerline-fonts \
-    zsh-autosuggestions \
-    zsh-syntax-highlighting
+sudo dnf install -y zsh curl git fastfetch powerline-fonts zsh-autosuggestions zsh-syntax-highlighting
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-Add plugins and fastfetch to `.zshrc`:
-
-```bash
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
 sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
 sed -i '$a\fastfetch' ~/.zshrc
 ```
 
-## 11. Install Visual Studio Code
+## Visual Studio Code
 
 ```bash
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -132,7 +124,7 @@ sudo dnf check-update
 sudo dnf install -y code
 ```
 
-## 12. Laptop Battery Optimization (if on laptop)
+## Laptop Battery Optimization
 
 ```bash
 sudo dnf remove -y power-profiles-daemon
@@ -142,9 +134,9 @@ sudo systemctl mask systemd-rfkill.service
 sudo systemctl mask systemd-rfkill.socket
 ```
 
-### Optimize TLP Settings
+### TLP Settings
 
-> **Note:** Threshold values depend on the laptop vendor. See documentation: https://linrunner.de/tlp/settings/bc-vendors.html
+> See [TLP vendor docs](https://linrunner.de/tlp/settings/bc-vendors.html) for threshold values.
 
 ```bash
 sed -i 's/#CPU_BOOST_ON_AC=1/CPU_BOOST_ON_AC=1/' /etc/tlp.conf
@@ -161,7 +153,3 @@ sed -i 's/#START_CHARGE_THRESH_BAT0=75/START_CHARGE_THRESH_BAT0=0/' /etc/tlp.con
 sed -i 's/#STOP_CHARGE_THRESH_BAT0=80/STOP_CHARGE_THRESH_BAT0=1/' /etc/tlp.conf
 sed -i 's/#RESTORE_DEVICE_STATE_ON_STARTUP=0/RESTORE_DEVICE_STATE_ON_STARTUP=1/' /etc/tlp.conf
 ```
-
-If not a laptop, nothing to do.
-
----
