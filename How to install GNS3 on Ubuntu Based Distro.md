@@ -1,29 +1,52 @@
-# How to install GNS3 on Ubuntu Based Distro </br>
+# How to Install GNS3 on Ubuntu-Based Distros
 
-**Add GNS3 repositories** <br>
-- sudo add-apt-repository ppa:gns3/ppa <br>
-- sudo apt-key export A2E3EF7B | sudo gpg --dearmour -o /usr/share/keyrings/gns3.gpg <br>
+## 1. Add GNS3 Repository
 
-**Edit the following parameter to the repo:**
-- sudo nano /etc/apt/sources.list.d/gns3-ppa-jammy.list
+```bash
+sudo add-apt-repository ppa:gns3/ppa
+sudo apt-key export A2E3EF7B | sudo gpg --dearmour -o /usr/share/keyrings/gns3.gpg
+```
 
-Insert **[arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg]** </br>
+## 2. Edit Repository Source
 
-**Should be like this:** deb [arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg] http://ppa.launchpad.net/gns3/ppa/ubuntu jammy main </br>
+```bash
+sudo nano /etc/apt/sources.list.d/gns3-ppa-jammy.list
+```
 
-**Install GNS Package** </br>
-- sudo apt update; sudo apt install gns3-gui gns3-server -y
+Change the line to:
 
-**Install Docker CE** <br>
-- sudo apt-get update; sudo apt-get install -y ca-certificates curl gnupg </br>
-- sudo install -m 0755 -d /etc/apt/keyrings </br>
-- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg </br>
-- sudo chmod a+r /etc/apt/keyrings/docker.gpg </br>
-- echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null </br>
-- sudo apt-get update; sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin </br>
+```
+deb [arch=amd64 signed-by=/usr/share/keyrings/gns3.gpg] http://ppa.launchpad.net/gns3/ppa/ubuntu jammy main
+```
 
-**Finally, add your user to the following groups:** <br>
-ubridge libvirt kvm wireshark docker </br>
+## 3. Install GNS3 Packages
 
-- sudo usermod -aG docker,wireshark,kvm,libvirt,ubridge username
+```bash
+sudo apt update
+sudo apt install gns3-gui gns3-server -y
+```
+
+## 4. Install Docker CE
+
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+## 5. Add User to Required Groups
+
+Replace `username` with your actual username.
+
+```bash
+sudo usermod -aG docker,wireshark,kvm,libvirt,ubridge username
+```
+
+Add your user to these groups:  
+`ubridge`, `libvirt`, `kvm`, `wireshark`, `docker`
 

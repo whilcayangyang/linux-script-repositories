@@ -1,12 +1,23 @@
-# How to install GNS3 on Arch Based Linux</br>
+# How to Install GNS3 on Arch-Based Linux
 
-**Install the following packages:**</br>
+## 1. Install Required Packages
+
+```bash
 yay -S gns3-server gns3-gui dynamips ubridge qemu docker wireshark-qt vpcs libvirt gperftools tigervnc
+```
 
-**Add your username to the following groups:**</br>
-sudo usermod -aG docker,wireshark,kvm,libvirt username</br>
+## 2. Add User to Required Groups
 
-**Enable systemd services:**</br>
-sudo systemctl enable --now docker</br>
-sudo systemctl enable --now libvirtd</br>
-sudo virsh net-autostart default</br>
+Replace `username` with your actual username.
+
+```bash
+sudo usermod -aG docker,wireshark,kvm,libvirt username
+```
+
+## 3. Enable Systemd Services
+
+```bash
+sudo systemctl enable --now docker
+sudo systemctl enable --now libvirtd
+sudo virsh net-autostart default
+```
