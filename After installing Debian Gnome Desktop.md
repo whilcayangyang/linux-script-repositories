@@ -43,6 +43,7 @@ sudo apt install -y gnome-shell-extension-system-monitor \
   lm-sensors \
   gnome-shell-extension-appindicator \
   gnome-shell-extension-dashtodock \
+  gnome-shell-extension-manager \
   papirus-icon-theme \
   ttf-mscorefonts-installer \
   libavcodec-extra \
