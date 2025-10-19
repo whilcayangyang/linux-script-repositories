@@ -23,17 +23,16 @@ A step-by-step guide for configuring and optimizing a fresh Debian GNOME Desktop
 ## Remove Unwanted Packages
 
 ```bash
-sudo apt autoremove -y gnome-games gnome-music libreoffice-core libreoffice-common firefox-esr evolution
+sudo apt autoremove -y gnome-terminal libreoffice-core libreoffice-common
 ```
 
-## Enable Non-Free Repository
+## Enable 'contrib non-free' Repository
 
 ```bash
 sudo sed -i '/non-free-firmware/ {
   /contrib non-free/! s/non-free-firmware/& contrib non-free/
 }' /etc/apt/sources.list
 sudo apt update
-sudo apt full-upgrade -y
 ```
 
 ## Install Essential System Apps
@@ -43,20 +42,20 @@ sudo apt install -y gnome-shell-extension-system-monitor \
   gnome-shell-extension-freon \
   lm-sensors \
   gnome-shell-extension-appindicator \
+  gnome-shell-extension-dashtodock \
   papirus-icon-theme \
   ttf-mscorefonts-installer \
   libavcodec-extra \
+  gnome-console \
   ufw \
   curl \
-  git \
-  exfat-fuse
+  git
 ```
 
 ## Configure Firewall
 
 ```bash
 sudo ufw enable
-sudo ufw limit ssh
 sudo ufw reload
 ```
 
@@ -77,21 +76,20 @@ gsettings set org.gnome.software packaging-format-preference "['flatpak', 'deb']
 ## Install Flatpak Apps
 
 ```bash
-flatpak install --noninteractive -y flathub \
+flatpak install -y flathub \
+  com.brave.Browser \
+  com.mikrotik.WinBox \
   org.gtk.Gtk3theme.adw-gtk3 \
   org.gtk.Gtk3theme.adw-gtk3-dark \
-  org.mozilla.firefox \
-  org.mozilla.Thunderbird \
   org.gimp.GIMP \
-  com.calibre_ebook.calibre \
   org.libreoffice.LibreOffice \
-  com.github.tchx84.Flatseal \
   com.discordapp.Discord \
+  com.slack.Slack \
   com.jgraph.drawio.desktop \
-  io.gitlab.adhami3310.Impression \
   it.mijorus.gearlever \
-  org.filezillaproject.Filezilla \
-  com.sindresorhus.Caprine
+  org.videolan.VLC \
+  org.kde.kdenlive \
+  org.libreoffice.LibreOffice
 ```
 
 ## KVM/QEMU Virtualization (Optional)
@@ -127,7 +125,7 @@ sudo apt install -y zsh fonts-powerline zsh-autosuggestions zsh-syntax-highlight
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
-sed -i 's/plugins=(git)/plugins=(docker debian ufw systemd sudo)/' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(docker terraform debian systemd)/' ~/.zshrc
 sed -i '$a\fastfetch' ~/.zshrc
 ```
 
