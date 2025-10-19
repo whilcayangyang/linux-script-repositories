@@ -106,10 +106,10 @@ flatpak install -y flathub \
 
 ```bash
 cd /usr/share/themes
-sudo wget https://github.com/lassekongo83/adw-gtk3/releases/download/v5.3/adw-gtk3v5.3.tar.xz
-sudo tar -xvf adw-gtk3v5.3.tar.xz
-sudo chown -R --reference Adwaita adw-gtk3*
-sudo rm -f adw-gtk3v5.3.tar.xz
+sudo wget https://github.com/lassekongo83/adw-gtk3/releases/download/v6.4/adw-gtk3v6.4.tar.xz
+sudo tar -xvf adw-gtk3v6.4.tar.xz
+sudo chown -R --reference Default adw-gtk3*
+sudo rm -f adw-gtk3v6.4.tar.xz
 ```
 
 ## Firefox GNOME Theme
