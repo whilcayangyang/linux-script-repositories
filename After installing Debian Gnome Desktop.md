@@ -29,7 +29,9 @@ sudo apt autoremove -y gnome-games gnome-music libreoffice-core libreoffice-comm
 ## Enable Non-Free Repository
 
 ```bash
-sudo add-apt-repository contrib non-free
+sudo sed -i '/non-free-firmware/ {
+  /contrib non-free/! s/non-free-firmware/& contrib non-free/
+}' /etc/apt/sources.list
 sudo apt update
 sudo apt full-upgrade -y
 ```
