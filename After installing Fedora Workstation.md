@@ -43,10 +43,7 @@ sudo dnf install -y gnome-shell-extension-system-monitor-applet \
   gnome-extensions-app \
   adw-gtk3-theme \
   libreoffice-draw \
-  vim \
-  filezilla \
-  transmission \
-  steam
+  vim
 ```
 
 ## KVM Virtualization
@@ -87,14 +84,17 @@ gsettings set org.gnome.software packaging-format-preference "['flatpak', 'rpm']
 
 ```bash
 flatpak install -y flathub \
+  com.brave.Browser \
+  com.mikrotik.WinBox \
   org.gtk.Gtk3theme.adw-gtk3 \
   org.gtk.Gtk3theme.adw-gtk3-dark \
   org.gimp.GIMP \
-  com.calibre_ebook.calibre \
-  com.jgraph.drawio.desktop \
-  io.gitlab.adhami3310.Impression \
   com.discordapp.Discord \
   com.slack.Slack \
+  com.jgraph.drawio.desktop \
+  it.mijorus.gearlever \
+  org.videolan.VLC \
+  org.kde.kdenlive \
   it.mijorus.gearlever
 ```
 
@@ -111,7 +111,7 @@ sudo dnf install -y zsh curl git fastfetch powerline-fonts zsh-autosuggestions z
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
-sed -i 's/plugins=(git)/plugins=(docker firewalld dnf systemd sudo)/' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(docker terraform debian systemd)/' ~/.zshrc
 sed -i '$a\fastfetch' ~/.zshrc
 ```
 
