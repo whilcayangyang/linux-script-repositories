@@ -17,6 +17,8 @@ Recommended steps for configuring Fedora Workstation after installation.
 - [Visual Studio Code](#visual-studio-code)
 - [Laptop Battery Optimization](#laptop-battery-optimization)
 - [TLP Settings](#tlp-settings)
+- [Fix Shutdown Not Fully Powering Off](#fix-shutdown-not-fully-powering-off)
+- [BIOS Settings to Verify](#bios-settings-to-verify)
 
 ---
 
@@ -125,3 +127,48 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 sudo dnf check-update
 sudo dnf install -y code jetbrains-mono-fonts-all
 ```
+
+## Fix Shutdown Not Fully Powering Off
+
+If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add a kernel parameter in GRUB.
+
+Edit GRUB defaults:
+
+```bash
+sudo nano /etc/default/grub
+```
+
+Find:
+
+```bash
+GRUB_CMDLINE_LINUX=
+```
+
+Add:
+
+```bash
+reboot=pci
+```
+
+Example:
+
+```bash
+GRUB_CMDLINE_LINUX="rhgb quiet reboot=pci"
+```
+
+Regenerate GRUB config:
+
+```bash
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+```
+
+Reboot.
+
+## BIOS Settings to Verify
+
+Enter BIOS and verify:
+
+- Disable Wake on LAN
+- Disable USB Wake
+- Set ErP to Enabled (if currently Disabled)
+- Disable Fast Boot
