@@ -130,39 +130,21 @@ sudo dnf install -y code jetbrains-mono-fonts-all
 
 ## Fix Shutdown Not Fully Powering Off
 
-If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add a kernel parameter in GRUB.
-
-Edit GRUB defaults:
+If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
 
 ```bash
-sudo nano /etc/default/grub
+sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0"
 ```
 
-Find:
+Check the currently running kernel command line:
 
 ```bash
-GRUB_CMDLINE_LINUX=
+sudo cat /proc/cmdline
 ```
 
-Add:
+`grubby --update-kernel=ALL` appends the parameters to every installed kernel entry, so future boots keep the same settings.
 
-```bash
-reboot=pci
-```
-
-Example:
-
-```bash
-GRUB_CMDLINE_LINUX="rhgb quiet reboot=pci"
-```
-
-Regenerate GRUB config:
-
-```bash
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-```
-
-Reboot.
+`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that `reboot=pci` and `amdgpu.runpm=0` are active.
 
 ## BIOS Settings to Verify
 
