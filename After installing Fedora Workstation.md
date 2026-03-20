@@ -144,7 +144,13 @@ sudo cat /proc/cmdline
 
 `grubby --update-kernel=ALL` appends the parameters to every installed kernel entry, so future boots keep the same settings.
 
-`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that `reboot=pci` and `amdgpu.runpm=0` are active.
+Parameter purpose:
+
+- `reboot=pci`: Forces the PCI reboot method, which can resolve boards that hang during power-off.
+- `amdgpu.runpm=0`: Disables AMD GPU runtime power management, avoiding shutdown/power-state handoff issues.
+- `amdgpu.aspm=0`: Disables PCIe ASPM for the AMD GPU, reducing link power-management glitches on shutdown.
+
+`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that `reboot=pci`, `amdgpu.runpm=0`, and `amdgpu.aspm=0` are active.
 
 ## BIOS Settings to Verify
 
