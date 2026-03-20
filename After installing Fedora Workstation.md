@@ -133,7 +133,7 @@ sudo dnf install -y code jetbrains-mono-fonts-all
 If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
 
 ```bash
-sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0"
+sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0"
 ```
 
 Check the currently running kernel command line:
