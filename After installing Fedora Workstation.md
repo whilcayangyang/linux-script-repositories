@@ -42,7 +42,6 @@ sudo dnf install -y gnome-shell-extension-system-monitor-applet \
   gnome-shell-extension-appindicator \
   gnome-shell-extension-dash-to-dock \
   gnome-tweaks \
-  gnome-extensions-app \
   adw-gtk3-theme \
   libreoffice-draw \
   vim \
@@ -99,7 +98,9 @@ flatpak install -y flathub \
   it.mijorus.gearlever \
   org.videolan.VLC \
   org.kde.kdenlive \
-  it.mijorus.gearlever
+  it.mijorus.gearlever \
+  com.mattjakeman.ExtensionManager \
+  dev.deedles.Trayscale
 ```
 
 ## Firefox GNOME Theme
