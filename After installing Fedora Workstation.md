@@ -134,7 +134,7 @@ sudo dnf install -y code jetbrains-mono-fonts-all
 If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
 
 ```bash
-sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0"
+sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0"
 ```
 
 Check the currently running kernel command line:
@@ -150,8 +150,10 @@ Parameter purpose:
 - `reboot=pci`: Forces the PCI reboot method, which can resolve boards that hang during power-off.
 - `amdgpu.runpm=0`: Disables AMD GPU runtime power management, avoiding shutdown/power-state handoff issues.
 - `amdgpu.aspm=0`: Disables PCIe ASPM for the AMD GPU, reducing link power-management glitches on shutdown.
+- `amdgpu.sg_display=0`: Disables scatter-gather display for the AMD GPU, which can cause hangs on some boards during power-off.
+- `plymouth.enable=0`: Disables the Plymouth boot splash, removing a potential stall point during the shutdown sequence.
 
-`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that `reboot=pci`, `amdgpu.runpm=0`, and `amdgpu.aspm=0` are active.
+`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that all parameters are active.
 
 ## BIOS Settings to Verify
 
