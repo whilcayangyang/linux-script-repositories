@@ -131,10 +131,10 @@ sudo dnf install -y code jetbrains-mono-fonts-all
 
 ## Fix Shutdown Not Fully Powering Off
 
-If your motherboard (B460M AORUS PRO) sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
+If your motherboard (B460M AORUS PRO) with RX6600 GPU sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
 
 ```bash
-sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0"
+sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0 intel_iommu=on iommu=pt mem_sleep_default=s2idle"
 ```
 
 Check the currently running kernel command line:
@@ -152,6 +152,9 @@ Parameter purpose:
 - `amdgpu.aspm=0`: Disables PCIe ASPM for the AMD GPU, reducing link power-management glitches on shutdown.
 - `amdgpu.sg_display=0`: Disables scatter-gather display for the AMD GPU, which can cause hangs on some boards during power-off.
 - `plymouth.enable=0`: Disables the Plymouth boot splash, removing a potential stall point during the shutdown sequence.
+- `intel_iommu=on`: Enables the Intel IOMMU (VT-d), required for GPU passthrough and proper VFIO isolation.
+- `iommu=pt`: Sets IOMMU to pass-through mode, reducing overhead for devices not assigned to a VM.
+- `mem_sleep_default=s2idle`: Sets the default suspend mode to s2idle (shallow suspend), which is more reliable than deep sleep on systems with AMD GPUs or PCIe power-management issues.
 
 `cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that all parameters are active.
 
