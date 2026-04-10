@@ -30,7 +30,7 @@ Note the device path (e.g., `/dev/nvme0n1p3`) and UUID.
 ```bash
 sudo systemd-cryptenroll --wipe-slot tpm2 \
   --tpm2-device auto \
-  --tpm2-pcrs "0+1+2+4+7" \
+  --tpm2-pcrs "0+1+2+7" \
   /dev/nvme0n1p3
 ```
 
@@ -93,7 +93,7 @@ If hardware/firmware changes are permanent, re-enroll against the new state:
 ```bash
 sudo systemd-cryptenroll --wipe-slot tpm2 \
   --tpm2-device auto \
-  --tpm2-pcrs "0+1+2+4+7" \
+  --tpm2-pcrs "0+1+2+7" \
   /dev/nvme0n1p3
 ```
 
