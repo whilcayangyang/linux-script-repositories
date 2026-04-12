@@ -7,16 +7,12 @@ Recommended steps for configuring Fedora Workstation after installation.
 - [Enable RPM Fusion Repositories](#enable-rpm-fusion-repositories)
 - [System Upgrade](#system-upgrade)
 - [Install Essential Packages](#install-essential-packages)
-- [KVM Virtualization](#kvm-virtualization)
-- [Docker CE](#docker-ce)
 - [Flatpak Flathub](#flatpak-flathub)
 - [GNOME Software Flatpak Default](#gnome-software-flatpak-default)
 - [Install Flatpak Apps](#install-flatpak-apps)
-- [Firefox GNOME Theme](#firefox-gnome-theme)
 - [OhMyZsh & Plugins](#ohmyzsh--plugins)
 - [Visual Studio Code](#visual-studio-code)
-- [Laptop Battery Optimization](#laptop-battery-optimization)
-- [TLP Settings](#tlp-settings)
+- [Lenovo T14 — Disable Bluetooth Autostart](#lenovo-t14--disable-bluetooth-autostart)
 - [Fix Shutdown Not Fully Powering Off](#fix-shutdown-not-fully-powering-off)
 - [BIOS Settings to Verify](#bios-settings-to-verify)
 
@@ -32,41 +28,20 @@ sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-non
 ## System Upgrade
 
 ```bash
-sudo dnf update -y
+sudo dnf upgrade -y
 ```
 
 ## Install Essential Packages
 
 ```bash
-sudo dnf install -y gnome-shell-extension-system-monitor-applet \
+sudo dnf install -y \
   gnome-shell-extension-appindicator \
-  gnome-shell-extension-dash-to-dock \
   gnome-tweaks \
   adw-gtk3-theme \
   libreoffice-draw \
   vim \
   fuse \
   fuse-libs
-```
-
-## KVM Virtualization
-
-```bash
-sudo dnf install -y bridge-utils libvirt virt-install virt-manager qemu-kvm
-sudo usermod -aG libvirt $(whoami)
-sudo systemctl enable --now libvirtd
-sudo dnf remove -y gnome-boxes
-```
-
-## Docker CE
-
-```bash
-sudo dnf remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine
-sudo dnf install -y dnf-plugins-core
-sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo systemctl enable --now docker
-sudo usermod -aG docker $(whoami)
 ```
 
 ## Flatpak Flathub
@@ -98,15 +73,8 @@ flatpak install -y flathub \
   it.mijorus.gearlever \
   org.videolan.VLC \
   org.kde.kdenlive \
-  it.mijorus.gearlever \
   com.mattjakeman.ExtensionManager \
   dev.deedles.Trayscale
-```
-
-## Firefox GNOME Theme
-
-```bash
-curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 ```
 
 ## OhMyZsh & Plugins
@@ -129,34 +97,50 @@ sudo dnf check-update
 sudo dnf install -y code jetbrains-mono-fonts-all
 ```
 
+## Lenovo T14 — Disable Bluetooth Autostart
+
+Prevents Bluetooth from powering on automatically at boot. Useful on the T14 where the adapter enables itself on every startup even when not needed.
+
+```bash
+sudo sed -i 's/^AutoEnable=true/AutoEnable=false/' /etc/bluetooth/main.conf
+```
+
+Verify the change took effect:
+
+```bash
+grep AutoEnable /etc/bluetooth/main.conf
+```
+
+Restart the Bluetooth service to apply without rebooting:
+
+```bash
+sudo systemctl restart bluetooth
+```
+
 ## Fix Shutdown Not Fully Powering Off
 
-If your motherboard (B460M AORUS PRO) with RX6600 GPU sometimes does not fully power off on shutdown, add the required kernel parameters with `grubby`.
+Applies to: **B460M AORUS PRO with RX6600 GPU** — sometimes does not fully power off on shutdown.
 
 ```bash
 sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0 intel_iommu=on iommu=pt mem_sleep_default=s2idle"
 ```
 
-Check the currently running kernel command line:
+Confirm the parameters are active after reboot:
 
 ```bash
-sudo cat /proc/cmdline
+cat /proc/cmdline
 ```
-
-`grubby --update-kernel=ALL` appends the parameters to every installed kernel entry, so future boots keep the same settings.
 
 Parameter purpose:
 
-- `reboot=pci`: Forces the PCI reboot method, which can resolve boards that hang during power-off.
+- `reboot=pci`: Forces the PCI reboot method, resolving boards that hang during power-off.
 - `amdgpu.runpm=0`: Disables AMD GPU runtime power management, avoiding shutdown/power-state handoff issues.
 - `amdgpu.aspm=0`: Disables PCIe ASPM for the AMD GPU, reducing link power-management glitches on shutdown.
-- `amdgpu.sg_display=0`: Disables scatter-gather display for the AMD GPU, which can cause hangs on some boards during power-off.
-- `plymouth.enable=0`: Disables the Plymouth boot splash, removing a potential stall point during the shutdown sequence.
-- `intel_iommu=on`: Enables the Intel IOMMU (VT-d), required for GPU passthrough and proper VFIO isolation.
+- `amdgpu.sg_display=0`: Disables scatter-gather display, which can cause hangs on some boards during power-off.
+- `plymouth.enable=0`: Disables the Plymouth boot splash, removing a potential stall point during shutdown.
+- `intel_iommu=on`: Enables Intel IOMMU (VT-d), required for GPU passthrough and VFIO isolation.
 - `iommu=pt`: Sets IOMMU to pass-through mode, reducing overhead for devices not assigned to a VM.
-- `mem_sleep_default=s2idle`: Sets the default suspend mode to s2idle (shallow suspend), which is more reliable than deep sleep on systems with AMD GPUs or PCIe power-management issues.
-
-`cat /proc/cmdline` shows the command line for the kernel that is running right now. If you run it before rebooting, the new parameters may not appear yet. Reboot first, then run it again to confirm that all parameters are active.
+- `mem_sleep_default=s2idle`: Sets default suspend to s2idle (shallow suspend), more reliable with AMD GPUs or PCIe power-management issues.
 
 ## BIOS Settings to Verify
 
