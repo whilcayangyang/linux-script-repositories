@@ -122,7 +122,7 @@ sudo systemctl restart bluetooth
 Applies to: **B460M AORUS PRO with RX6600 GPU** — sometimes does not fully power off on shutdown.
 
 ```bash
-sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0 intel_iommu=on iommu=pt mem_sleep_default=s2idle"
+sudo grubby --update-kernel=ALL --args="reboot=pci amdgpu.runpm=0 amdgpu.aspm=0 amdgpu.sg_display=0 plymouth.enable=0 intel_iommu=on iommu=pt mem_sleep_default=deep"
 ```
 
 Confirm the parameters are active after reboot:
