@@ -84,7 +84,7 @@ sudo dnf install -y zsh curl git fastfetch powerline-fonts zsh-autosuggestions z
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-autosuggestions\/zsh-autosuggestions.zsh' ~/.zshrc
 sed -i '/source $ZSH\/oh-my-zsh.sh/ a\source \/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh' ~/.zshrc
-sed -i 's/plugins=(git)/plugins=(docker terraform debian systemd)/' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(ansible fluxcd git helm k9s kubectl tailscale terraform)/' ~/.zshrc
 sed -i '$a\fastfetch' ~/.zshrc
 ```
 
